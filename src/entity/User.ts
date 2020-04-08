@@ -1,30 +1,43 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable} from "typeorm";
-import {Message} from "./Message";
-import {Room} from "./Room";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable, BaseEntity } from 'typeorm';
+import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { Message } from './Message';
+import { Room } from './Room';
+import UserInterface from '../interface/User';
 
 @Entity()
-export class User {
+export class User extends BaseEntity implements UserInterface {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({ unique: true })
+  @IsEmail({}, { message: 'Email is not valid.' })
+  email: string;
 
-    @Column({unique: true})
-    email: string;
+  @Column({ select: false })
+  @MinLength(6, { message: 'Password should be at least 6 characters long.' })
+  @IsString({ message: 'Password should be a string.' })
+  password: string;
 
-    @Column()
-    firstName: string;
+  @Column()
+  @IsString({ message: 'First name should be a string.' })
+  @IsNotEmpty({ message: 'First name should not be empty.' })
+  firstName: string;
 
-    @Column()
-    lastName: string;
+  @Column()
+  @IsString({ message: 'Last name should be a string.' })
+  @IsNotEmpty({ message: 'Last name should not be empty.' })
+  lastName: string;
 
-    @OneToMany(type => Message, message => message.user)
-    messages: Message[];
+  @OneToMany(() => Message, message => message.user)
+  messages: Message[];
 
-    @ManyToMany(type => Room, room => room.users)
-    @JoinTable()
-    rooms: Room[];
+  @ManyToMany(() => Room, room => room.users)
+  @JoinTable()
+  rooms: Room[];
 
-    @Column({type: 'timestamp', default: () => "CURRENT_TIMESTAMP"})
-    createdAt: string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createTime: Date;
 
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  lastLoginTime: Date;
 }

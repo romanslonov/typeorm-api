@@ -1,23 +1,45 @@
-import {Entity, PrimaryGeneratedColumn, Column, ManyToOne} from "typeorm";
-import {User} from "./User";
-import {Room} from "./Room";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity } from 'typeorm';
+import { IsNotEmpty, IsString, IsEnum } from 'class-validator';
+import { User } from './User';
+import { Room } from './Room';
+
+export enum MessageType {
+  TEXT = 'text',
+  IMAGE = 'image',
+  CODE = 'code',
+  INVITE = 'invite',
+  SYSTEM = 'system',
+}
 
 @Entity()
-export class Message {
+export class Message extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column({
+    type: 'enum',
+    enum: MessageType,
+    default: MessageType.TEXT,
+  })
+  @IsEnum(MessageType,
+    { message: `Type must be a valid enum value, one of [${Object.values(MessageType)}]`
+  })
+  type: MessageType
 
-    @Column()
-    text: string;
+  @Column()
+  @IsString({ message: 'Content should be a string.' })
+  @IsNotEmpty({ message: 'Content should not be empty.' })
+  content: string;
 
-    @ManyToOne(type => Room, room => room.messages)
-    room: Room;
+  @ManyToOne(() => Room, room => room.messages)
+  room: Room;
 
-    @ManyToOne(type => User, user => user.messages)
-    user: User;
+  @ManyToOne(() => User, user => user.messages)
+  user: User;
 
-    @Column({type: 'timestamp', default: () => "CURRENT_TIMESTAMP"})
-    createdAt: string;
-    
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createTime: Date;
+
+  @Column({ type: 'timestamp', default: () => null, nullable: true })
+  lastUpdateTime: Date;
 }
