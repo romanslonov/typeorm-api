@@ -1,10 +1,19 @@
 // import { getRepository, Like } from 'typeorm';
 // import { NextFunction, Request, Response } from 'express';
-// import { OK, CREATED } from 'http-status';
-// import { User } from '../entity/User';
+import { OK, CREATED } from 'http-status';
+import { User } from '../entity/User';
 // import NotFoundException from '../exception/NotFoundException';
 // import UserAlreadyExistsException from '../exception/UserAlreadyExistsException';
 // import RequestExtended from '../interface/RequestExtended';
+
+import { DefaultContext } from 'koa';
+
+export async function profile(ctx: DefaultContext) {
+  const user = await User.findOne({ id: ctx.state.user.id });
+
+  ctx.status = OK;
+  ctx.body = { user };
+};
 
 // export class UserController {
 

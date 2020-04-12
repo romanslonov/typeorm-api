@@ -1,13 +1,10 @@
-import { Router } from 'express';
-import { UserController } from '../controller/user';
-import { User } from '../entity/User';
-import validationMiddleware from '../middleware/validate';
-import authorize from '../middleware/authorize';
+// import { Router } from 'express';
+// import { profile } from '../controller/user';
+// // import { User } from '../entity/User';
+// import authorizeMiddleware from '../middleware/authorize';
 
-const router = Router();
+// const router = Router();
 
-router.get('/', authorize,  UserController.search);
-router.get('/:id', authorize, UserController.one);
-router.post('/', authorize, validationMiddleware(User), UserController.save);
+// router.get('/', authorizeMiddleware,  profile);
 
-export default router;
+// export default router;

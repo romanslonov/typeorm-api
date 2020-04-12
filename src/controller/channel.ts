@@ -1,6 +1,6 @@
 import { OK, CREATED } from 'http-status';
 import { Channel } from '../entity/Channel';
-// import { User } from '../entity/User';
+import { User } from '../entity/User';
 import { Message } from '../entity/Message';
 import { DefaultContext } from 'koa';
 
@@ -13,6 +13,13 @@ export async function create(ctx: DefaultContext) {
 
   ctx.status = CREATED;
   ctx.body = { channel };
+}
+
+export async function getAll(ctx: DefaultContext) {
+  const user = await User.findOne({ where: { id: ctx.state.user.id }, relations: ['channels'] });
+
+  ctx.status = OK;
+  ctx.body = { channels: user.channels };
 }
 
 export async function getMessagesByChannel(ctx: DefaultContext) {

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToMany, OneToMany, BaseEntity, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToMany, OneToMany, BaseEntity, JoinTable, ManyToOne } from 'typeorm';
 import { User } from './User';
 import { Message } from './Message';
 
@@ -7,11 +7,11 @@ export class Channel extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToOne(() => User, { cascade: true })
+  @ManyToOne(() => User, { cascade: true, eager: true })
   @JoinColumn()
   author: User;
 
-  @ManyToMany(() => User, user => user.channels, { cascade: true })
+  @ManyToMany(() => User, user => user.channels, { cascade: true, eager: true })
   @JoinTable({ name: 'user_channels' })
   users: User[];
 

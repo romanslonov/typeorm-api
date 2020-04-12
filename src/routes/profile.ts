@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import { UserController } from '../controller/user';
-import authorize from '../middleware/authorize';
+import Router from 'koa-router';
+import { profile } from '../controller/user';
+import authorizeMiddleware from '../middleware/authorize';
 
-const router = Router();
+const router = new Router();
 
-router.get('/profile', authorize,  UserController.profile);
+router.get('/profile', authorizeMiddleware, profile);
 
 export default router;
