@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable, BaseEntity } from 'typeorm';
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 import { Message } from './Message';
-import { Room } from './Room';
+import { Channel } from './Channel';
 import UserInterface from '../interface/User';
 
 @Entity()
@@ -31,9 +31,9 @@ export class User extends BaseEntity implements UserInterface {
   @OneToMany(() => Message, message => message.user)
   messages: Message[];
 
-  @ManyToMany(() => Room, room => room.users)
+  @ManyToMany(() => Channel, room => room.users)
   @JoinTable()
-  rooms: Room[];
+  channels: Channel[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createTime: Date;

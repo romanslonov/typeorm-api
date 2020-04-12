@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity } from 'typeorm';
 import { IsNotEmpty, IsString, IsEnum } from 'class-validator';
 import { User } from './User';
-import { Room } from './Room';
+import { Channel } from './Channel';
 
 export enum MessageType {
   TEXT = 'text',
@@ -31,8 +31,8 @@ export class Message extends BaseEntity {
   @IsNotEmpty({ message: 'Content should not be empty.' })
   content: string;
 
-  @ManyToOne(() => Room, room => room.messages)
-  room: Room;
+  @ManyToOne(() => Channel, channel => channel.messages)
+  channel: Channel;
 
   @ManyToOne(() => User, user => user.messages)
   user: User;

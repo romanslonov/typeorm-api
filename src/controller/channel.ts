@@ -1,23 +1,23 @@
 import { OK, CREATED } from 'http-status';
-import { Room } from '../entity/Room';
+import { Channel } from '../entity/Channel';
 // import { User } from '../entity/User';
 import { Message } from '../entity/Message';
 import { DefaultContext } from 'koa';
 
 export async function create(ctx: DefaultContext) {
-  const room = new Room();
-  room.author = ctx.state.user;
-  room.users = [room.author];
+  const channel = new Channel();
+  channel.author = ctx.state.user;
+  channel.users = [channel.author];
 
-  await room.save();
+  await channel.save();
 
   ctx.status = CREATED;
-  ctx.body = { room };
+  ctx.body = { channel };
 }
 
-export async function getMessagesByRoom(ctx: DefaultContext) {
+export async function getMessagesByChannel(ctx: DefaultContext) {
   const { id } = ctx.params;
-  const messages = await Message.find({ where: [{ room: id }], relations: ['user'] });
+  const messages = await Message.find({ where: [{ channel: id }], relations: ['user'] });
 
   ctx.status = OK;
   ctx.body = { messages };

@@ -3,7 +3,7 @@ import { User } from './User';
 import { Message } from './Message';
 
 @Entity()
-export class Room extends BaseEntity {
+export class Channel extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -11,10 +11,10 @@ export class Room extends BaseEntity {
   @JoinColumn()
   author: User;
 
-  @ManyToMany(() => User, user => user.rooms, { cascade: true })
+  @ManyToMany(() => User, user => user.channels, { cascade: true })
   users: User[];
 
-  @OneToMany(() => Message, message => message.room)
+  @OneToMany(() => Message, message => message.channel)
   messages: Message[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

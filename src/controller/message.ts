@@ -1,17 +1,17 @@
 import { DefaultContext } from 'koa';
-import { Room } from '../entity/Room';
+import { Channel } from '../entity/Channel';
 import { Message } from '../entity/Message';
-import { OK, CREATED } from 'http-status';
+import { CREATED } from 'http-status';
 import CacheService from '../service/Cache';
 
 export async function create(ctx: DefaultContext) {
   const { type, content } = ctx.request.body;
   const user = ctx.state.user;
-  const room = await Room.findOne(ctx.request.body.roomId);
+  const channel = await Channel.findOne(ctx.request.body.channelId);
   const message = new Message();
 
   message.user = user;
-  message.room = room;
+  message.channel = channel;
   message.type = type;
   message.content = content;
 
@@ -20,7 +20,7 @@ export async function create(ctx: DefaultContext) {
   const socket = CacheService.get(ctx.request.body.userId);
 
   if (socket) {
-    socket.broadcast.to(ctx.request.body.roomId).emit('NEW_MESSAGE', message);
+    socket.broadcast.to(ctx.request.body.channelId).emit('NEW_MESSAGE', message);
   }
 
   ctx.status = CREATED;
