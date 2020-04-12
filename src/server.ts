@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import { createConnection } from 'typeorm';
-import dotenv from 'dotenv';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import helmet from 'koa-helmet';
@@ -14,7 +13,6 @@ import undefinedEndpointMiddleware from './middleware/undefinedEndpoint';
 import authorizeSocketMiddleware from './socket/middleware/authorize';
 import config from './config';
 
-dotenv.config();
 
 createConnection().then(async () => {
   const app = new Koa();

@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import { User } from '../entity/user';
+import { User } from '../entity/User';
 import Login from '../dto/Login';
 import { signup, signin } from '../controller/auth';
 import validateMiddleware from '../middleware/validate';
