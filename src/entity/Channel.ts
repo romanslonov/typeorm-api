@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToMany, OneToMany, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToMany, OneToMany, BaseEntity, JoinTable } from 'typeorm';
 import { User } from './User';
 import { Message } from './Message';
 
@@ -12,6 +12,7 @@ export class Channel extends BaseEntity {
   author: User;
 
   @ManyToMany(() => User, user => user.channels, { cascade: true })
+  @JoinTable({ name: 'user_channels' })
   users: User[];
 
   @OneToMany(() => Message, message => message.channel)

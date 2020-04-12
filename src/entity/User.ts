@@ -32,7 +32,6 @@ export class User extends BaseEntity implements UserInterface {
   messages: Message[];
 
   @ManyToMany(() => Channel, room => room.users)
-  @JoinTable()
   channels: Channel[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

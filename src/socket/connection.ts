@@ -4,7 +4,7 @@ export async function listen(socket, io) {
   /**
    * Save user to cache
    */
-  socket.user.rooms.forEach(room => socket.join(room.id));
+  socket.user.channels.forEach(channel => socket.join(channel.id));
   CacheService.add(socket.user.id, socket);
   console.log('connected user email', socket.user.email);
   console.log('online now: ', CacheService.count());

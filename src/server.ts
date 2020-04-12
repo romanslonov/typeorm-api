@@ -13,7 +13,6 @@ import undefinedEndpointMiddleware from './middleware/undefinedEndpoint';
 import authorizeSocketMiddleware from './socket/middleware/authorize';
 import config from './config';
 
-
 createConnection().then(async () => {
   const app = new Koa();
   const server = http.createServer(app.callback());
@@ -44,7 +43,7 @@ createConnection().then(async () => {
 
   app.on('error', (error) => console.log(error));
 
-  app.listen(config.port, () => {
+  server.listen(config.port, () => {
     console.log(`DB connected and server up and running on ${config.port}'`);
   });
 }).catch(error => console.log(error));

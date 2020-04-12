@@ -10,7 +10,7 @@ export default async function(socket, next) {
 
     const userRepository = getRepository(User);
     const decoded = jwt.verify(token, config.jwtSecret) as DataStoredInToken;
-    const user = await userRepository.findOne(decoded.id, { relations: ['rooms'] });
+    const user = await userRepository.findOne(decoded.id, { relations: ['channels'] });
 
     if (!user) {
       return next(new Error('Authentication error.'));
